@@ -1,0 +1,2 @@
+SecureCloud AI complies with SOC2 Type II security standards.
+Monthly automated vulnerability scans are performed.

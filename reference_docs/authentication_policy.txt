@@ -1,0 +1,2 @@
+SecureCloud AI supports multi-factor authentication using Time-based One-Time Passwords (TOTP).
+Supported authentication protocols include OAuth2 and SAML.

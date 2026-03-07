@@ -1,0 +1,20 @@
+1. What encryption standard is used for stored data?
+
+2. Does the platform support multi-factor authentication?
+
+3. How often are security audits conducted?
+
+4. Where is customer data stored?
+
+5. What backup policies are implemented?
+
+6. Does the platform comply with SOC2 standards?
+
+7. How are security incidents handled?
+
+8. Are vulnerability scans performed regularly?
+
+9. What authentication protocols are supported?
+
+10. What disaster recovery strategy is used?
+11. who is prime minister of india?

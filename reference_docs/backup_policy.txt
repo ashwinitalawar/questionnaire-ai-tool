@@ -1,0 +1,2 @@
+Automated daily backups are performed for all customer data.
+The disaster recovery system restores services within four hours.

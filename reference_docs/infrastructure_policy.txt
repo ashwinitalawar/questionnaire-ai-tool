@@ -1,0 +1,2 @@
+Customer data is stored in AWS data centers located in the United States and Europe.
+SecureCloud AI uses isolated environments to separate customer data.
