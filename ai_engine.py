@@ -12,7 +12,7 @@ def build_vector_store(reference_files):
             text = file.read().decode("utf-8", errors="ignore")
             documents.append(text)
             filenames.append(file.name)
-        except Exception:
+        except:
             continue
 
     vectorizer = TfidfVectorizer(stop_words="english")
