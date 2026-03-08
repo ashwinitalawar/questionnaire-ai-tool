@@ -1,5 +1,5 @@
 import sqlite3
-from passlib.hash import bcrypt
+import hashlib
 
 DB_NAME = "users.db"
 
@@ -19,12 +19,16 @@ def create_table():
     conn.close()
 
 
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+
 def register(email, password):
 
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
 
-    hashed_password = bcrypt.hash(password)
+    hashed_password = hash_password(password)
 
     try:
         cursor.execute(
@@ -44,19 +48,17 @@ def login(email, password):
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
 
+    hashed_password = hash_password(password)
+
     cursor.execute(
-        "SELECT password FROM users WHERE email=?",
-        (email,)
+        "SELECT * FROM users WHERE email=? AND password=?",
+        (email, hashed_password)
     )
 
     result = cursor.fetchone()
-
     conn.close()
 
-    if result:
-        return bcrypt.verify(password, result[0])
-
-    return False
+    return result is not None
 
 
 create_table()
