@@ -6,7 +6,14 @@ from export import export_answers
 
 
 # Sidebar menu
-menu = st.sidebar.selectbox("Menu", ["Login", "Signup"])
+if "authenticated" not in st.session_state:
+    st.session_state["authenticated"] = False
+
+if st.session_state["authenticated"]:
+    menu = st.sidebar.selectbox("Menu", ["Logout"])
+else:
+    menu = st.sidebar.selectbox("Menu", ["Login", "Signup"])
+
 
 
 # ---------------- SIGNUP ----------------
@@ -37,7 +44,9 @@ elif menu == "Login":
             st.success("Logged in successfully")
         else:
             st.error("Invalid credentials")
-
+elif menu == "Logout":
+    st.session_state["authenticated"] = False
+    st.success("Logged out successfully")
 
 # ---------------- MAIN APPLICATION ----------------
 if "authenticated" in st.session_state and st.session_state["authenticated"]:
