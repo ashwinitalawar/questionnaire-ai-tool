@@ -8,8 +8,11 @@ def create_table():
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
 
+    # reset table to avoid old password formats
+    cursor.execute("DROP TABLE IF EXISTS users")
+
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS users (
+    CREATE TABLE users (
         email TEXT PRIMARY KEY,
         password TEXT
     )
