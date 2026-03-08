@@ -1,53 +1,49 @@
 import sqlite3
-import hashlib
+from passlib.hash import bcrypt
 
-# connect to database
-conn = sqlite3.connect("users.db", check_same_thread=False)
-cursor = conn.cursor()
-
-# create table
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS users(
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-email TEXT UNIQUE,
-password TEXT
-)
-""")
-
-conn.commit()
+DB_NAME = "users.db"
 
 
-# hash password using SHA256
+def get_connection():
+    return sqlite3.connect(DB_NAME, check_same_thread=False)
+
+
 def hash_password(password):
-    return hashlib.sha256(password.encode()).hexdigest()
+    return bcrypt.hash(password)
 
 
 def register(email, password):
 
-    hashed_password = hash_password(password)
-
-    try:
-        cursor.execute(
-            "INSERT INTO users(email, password) VALUES (?, ?)",
-            (email, hashed_password)
-        )
-        conn.commit()
-    except:
-        pass
-
-
-def login(email, password):
+    conn = get_connection()
+    cursor = conn.cursor()
 
     hashed_password = hash_password(password)
 
     cursor.execute(
-        "SELECT * FROM users WHERE email=? AND password=?",
+        "INSERT INTO users (email, password) VALUES (?, ?)",
         (email, hashed_password)
     )
 
-    user = cursor.fetchone()
+    conn.commit()
+    conn.close()
 
-    if user:
-        return True
+
+def login(email, password):
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT password FROM users WHERE email=?",
+        (email,)
+    )
+
+    result = cursor.fetchone()
+
+    conn.close()
+
+    if result:
+        stored_password = result[0]
+        return bcrypt.verify(password, stored_password)
 
     return False
